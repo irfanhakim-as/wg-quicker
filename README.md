@@ -6,18 +6,71 @@
 
 `wg-quicker` is a simple wrapper for [WireGuard](https://www.wireguard.com) tools that makes it easier to toggle or switch between multiple WireGuard configurations or profiles right from the terminal.
 
-## Dependencies
+## Directory
+
+- [wg-quicker](#wg-quicker)
+  - [About](#about)
+  - [Directory](#directory)
+  - [Usage](#usage)
+  - [Quickstart](#quickstart)
+    - [Dependencies](#dependencies)
+    - [Source](#source)
+    - [Installation](#installation)
+  - [Uninstallation](#uninstallation)
+
+---
+
+## Usage
+
+> [!NOTE]  
+> First and foremost, activating and deactivating WireGuard profiles (configurations) requires at least a single WireGuard client configuration (`.conf`) file to be available in the system. Please refer to [this guide](https://github.com/irfanhakim-as/linux-wiki/blob/master/topics/wireguard.md#macos) on how to set that up.
+
+1. Run the command as is to toggle the currently active WireGuard profile:
+
+    ```sh
+    wg-quicker
+    ```
+
+   - If a profile is active: The profile will be deactivated.
+   - If no profile is active: The first profile available on the system will be activated.
+
+2. **Alternatively**, append the name of a profile to the command to activate that profile:
+
+    ```sh
+    wg-quicker <profile>
+    ```
+
+    As an example, if you wish to activate the `profile-01` profile available on your system:
+
+    ```sh
+    wg-quicker profile-01
+    ```
+
+   - If a profile is active: The profile will be deactivated, and the specified profile will be activated.
+   - If no profile is active: The specified profile will be activated.
+
+3. The script also provides some other helpful options you could utilise.
+
+    Run the command with the `--help` option to see the list of available options:
+
+    ```sh
+    wg-quicker --help
+    ```
+
+---
+
+## Quickstart
+
+### Dependencies
 
 Install the following packages using [Homebrew](https://brew.sh):
 
 - `wireguard-go`
 - `wireguard-tools`
 
-## Quickstart
-
 ### Source
 
-Before [installing](#installation) or [uninstalling](#uninstallation) the program, we need to first acquire the source of the package if we do not have it already. To do so:
+Before [installing](#installation) the program, we need to first acquire the source of the package if we do not have it already. To do so:
 
 1. Clone the repository to the home directory (i.e. `~/.wg-quicker`):
 
@@ -85,11 +138,19 @@ Follow these steps to install or update the program for a single user or system-
         sudo ./install.sh
         ```
 
-### Uninstallation
+---
+
+## Uninstallation
 
 Follow these steps to uninstall the program:
 
-1. Uninstall using the provided uninstaller script:
+1. Get into the [source](#source) directory you had downloaded during the initial installation (i.e. `~/.wg-quicker`):
+
+    ```sh
+    cd ~/.wg-quicker
+    ```
+
+2. Uninstall using the provided uninstaller script:
 
    - If you have previously installed the program for a single user, simply run the script as is:
 
@@ -102,40 +163,3 @@ Follow these steps to uninstall the program:
         ```sh
         sudo ./uninstall.sh
         ```
-
-## Usage
-
-> [!NOTE]  
-> First and foremost, activating and deactivating WireGuard profiles (configurations) requires at least a single WireGuard client configuration (`.conf`) file to be available in the system. Please refer to [this guide](https://github.com/irfanhakim-as/linux-wiki/blob/master/topics/wireguard.md#macos) on how to set that up.
-
-1. Run the command as is to toggle the currently active WireGuard profile:
-
-    ```sh
-    wg-quicker
-    ```
-
-   - If a profile is active: The profile will be deactivated.
-   - If no profile is active: The first profile available on the system will be activated.
-
-2. **Alternatively**, append the name of a profile to the command to activate that profile:
-
-    ```sh
-    wg-quicker <profile>
-    ```
-
-    As an example, if you wish to activate the `profile-01` profile available on your system:
-
-    ```sh
-    wg-quicker profile-01
-    ```
-
-   - If a profile is active: The profile will be deactivated, and the specified profile will be activated.
-   - If no profile is active: The specified profile will be activated.
-
-3. The script also provides some other helpful options you could utilise.
-
-    Run the command with the `--help` option to see the list of available options:
-
-    ```sh
-    wg-quicker --help
-    ```

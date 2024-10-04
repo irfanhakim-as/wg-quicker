@@ -122,3 +122,24 @@ for arg in "${@}"; do
             ;;
     esac
 done
+
+# process supplied options
+while [[ ${#} -gt 0 ]]; do
+    case "${1}" in
+        -v|--version)
+            echo "${__version__}"
+            status="${?}"
+            ;;
+        *)
+            # collect arguments
+            args+=("${1}")
+            ;;
+    esac
+    shift
+done
+
+if [ -n "${status}" ]; then
+    exit "${status}"
+else
+    toggle_profile "${args[@]}"
+fi

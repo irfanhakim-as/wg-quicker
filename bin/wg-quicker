@@ -18,6 +18,15 @@ source "${SRC_DIR}/../share/doc/${app_name}/package.conf"
 # env variables
 wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"
 
+# print help message
+function help() {
+    echo "Usage: ${0} [OPTIONS]"; echo
+    echo "OPTIONS:"
+    echo "  -v, --version       Return the installed version number"
+    echo "  -h, --help          Return help message"; echo
+    echo "Report bugs to ${__url__}/issues"
+}
+
 # list wireguard profiles
 function list_profile() {
     local profiles=($(shopt -s nullglob; for f in "${wireguard_config_dir}"/*.conf; do basename "${f}" '.conf'; done))

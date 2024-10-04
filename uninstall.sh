@@ -11,7 +11,7 @@
 app_namespace="wg-quicker"
 
 # environment variables
-system_install_prefix="${system_install_prefix:-"/usr"}"
+system_install_prefix="${system_install_prefix:-"/usr/local"}"
 user_install_prefix="${user_install_prefix:-"${HOME}/.local"}"
 
 # local variables

@@ -76,9 +76,7 @@ Follow these steps to uninstall the program:
 > [!NOTE]  
 > First and foremost, activating and deactivating WireGuard profiles (configurations) requires at least a single WireGuard client configuration (`.conf`) file to be available in the system. Please refer to [this guide](https://github.com/irfanhakim-as/linux-wiki/blob/master/topics/wireguard.md#macos) on how to set that up.
 
-1. First and foremost, activating and deactivating WireGuard profiles (configurations) requires at least a single WireGuard client configuration (`.conf`) file to be available in the system. Please refer to [this guide](https://github.com/irfanhakim-as/linux-wiki/blob/master/topics/wireguard.md#macos) on how to set that up.
-
-2. Run the command as is to toggle the currently active WireGuard profile:
+1. Run the command as is to toggle the currently active WireGuard profile:
 
     ```sh
     wg-quicker
@@ -87,7 +85,7 @@ Follow these steps to uninstall the program:
    - If a profile is active: The profile will be deactivated.
    - If no profile is active: The first profile available on the system will be activated.
 
-3. **Alternatively**, append the name of a profile to the command to activate that profile:
+2. **Alternatively**, append the name of a profile to the command to activate that profile:
 
     ```sh
     wg-quicker <profile>
@@ -102,7 +100,7 @@ Follow these steps to uninstall the program:
    - If a profile is active: The profile will be deactivated, and the specified profile will be activated.
    - If no profile is active: The specified profile will be activated.
 
-4. The script also provides some other helpful options you could utilise. Run the command with the `--help` option to see the list of available options:
+3. The script also provides some other helpful options you could utilise. Run the command with the `--help` option to see the list of available options:
 
     ```sh
     wg-quicker --help

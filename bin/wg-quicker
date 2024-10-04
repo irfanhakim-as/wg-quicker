@@ -23,6 +23,7 @@ function help() {
     echo "Usage: ${0} [OPTIONS]"; echo
     echo "OPTIONS:"
     echo "  -c, --current       Return current active profile"
+    echo "  -l, --list          Return list of available profiles"
     echo "  -v, --version       Return the installed version number"
     echo "  -h, --help          Return help message"; echo
     echo "Report bugs to ${__url__}/issues"
@@ -129,6 +130,10 @@ while [[ ${#} -gt 0 ]]; do
     case "${1}" in
         -c|--current)
             echo "Current profile: $(get_active_profile)"
+            status="${?}"
+            ;;
+        -l|--list)
+            echo "Available profiles: $(list_profile)"
             status="${?}"
             ;;
         -v|--version)

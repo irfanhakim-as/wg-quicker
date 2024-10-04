@@ -95,7 +95,7 @@ jobs:
           # set variables
           version="${{ needs.metadata.outputs.version }}"
 
-          # update version badge in markdown files
+          # update version badge in README.md
           sed -i "s/\(Version-\)[0-9]*\.[0-9]*\.[0-9]*\(-informational\)/\1${version}\2/g;s/\[Version: [0-9]*\.[0-9]*\.[0-9]*\]/\[Version: ${version}\]/g" README.md
 
       - name: Package assets into archive

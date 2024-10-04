@@ -110,19 +110,19 @@ Before [installing](#installation) the program, we need to first acquire the sou
         rm -f ~/.wg-quicker/wg-quicker_${version}_any.tar.gz
         ```
 
-3. Get into the source directory (i.e. `~/.wg-quicker`):
-
-    ```sh
-    cd ~/.wg-quicker
-    ```
-
 ### Installation
 
 Follow these steps to install or update the program for a single user or system-wide:
 
 1. Ensure that you have all of the required program [dependencies](#dependencies) installed.
 
-2. Install using the provided installer script:
+2. Get into the [source](#source) directory (i.e. `~/.wg-quicker`):
+
+    ```sh
+    cd ~/.wg-quicker
+    ```
+
+3. Install using the provided installer script:
 
    - To install the program for a single user, simply run the script as is:
 

@@ -111,5 +111,14 @@ function toggle_profile() {
     fi
 }
 
-# toggle profile
-toggle_profile "${1}"
+# ================= DO NOT EDIT BEYOND THIS LINE =================
+
+# return help message
+for arg in "${@}"; do
+    case "${arg}" in
+        -h|--help)
+            help
+            exit 0
+            ;;
+    esac
+done

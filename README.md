@@ -63,19 +63,45 @@ Before [installing](#installation) or [uninstalling](#uninstallation) the progra
     cd ~/.wg-quicker
     ```
 
-2. Uninstall using the provided uninstaller script:
+### Installation
 
-    If you have previously installed the program for a single user, simply run the script as is:
+Follow these steps to install or update the program for a single user or system-wide:
 
-    ```sh
-    ./uninstall.sh
-    ```
+1. Ensure that you have all of the required program [dependencies](#dependencies) installed.
 
-    **Alternatively**, if you have installed the program system-wide, run the script with `sudo`:
+2. Install using the provided installer script:
 
-    ```sh
-    sudo ./uninstall.sh
-    ```
+   - To install the program for a single user, simply run the script as is:
+
+        ```sh
+        ./install.sh
+        ```
+
+        By default, this will install the program to the `~/.local` prefix. Please ensure that the `~/.local/bin` directory is in your `PATH` environment variable.
+
+   - **Alternatively**, to install the program system-wide, run the script with `sudo`:
+
+        ```sh
+        sudo ./install.sh
+        ```
+
+### Uninstallation
+
+Follow these steps to uninstall the program:
+
+1. Uninstall using the provided uninstaller script:
+
+   - If you have previously installed the program for a single user, simply run the script as is:
+
+        ```sh
+        ./uninstall.sh
+        ```
+
+   - **Alternatively**, if you have installed the program system-wide, run the script with `sudo`:
+
+        ```sh
+        sudo ./uninstall.sh
+        ```
 
 ## Usage
 

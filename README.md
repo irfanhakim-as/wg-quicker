@@ -100,7 +100,9 @@ Follow these steps to uninstall the program:
    - If a profile is active: The profile will be deactivated, and the specified profile will be activated.
    - If no profile is active: The specified profile will be activated.
 
-3. The script also provides some other helpful options you could utilise. Run the command with the `--help` option to see the list of available options:
+3. The script also provides some other helpful options you could utilise.
+
+    Run the command with the `--help` option to see the list of available options:
 
     ```sh
     wg-quicker --help

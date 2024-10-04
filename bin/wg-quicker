@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+#
+#         :::   :::  ::::::::::::::    :::    :::
+#       :+:+: :+:+:     :+:    :+:   :+:   :+: :+:
+#     +:+ +:+:+ +:+    +:+    +:+  +:+   +:+   +:+  Irfan Hakim (MIKA)
+#    +#+  +:+  +#+    +#+    +#++:++   +#++:++#++:  https://sakurajima.social/@irfan
+#   +#+       +#+    +#+    +#+  +#+  +#+     +#+   https://github.com/irfanhakim-as
+#  #+#       #+#    #+#    #+#   #+# #+#     #+#    https://gitlab.com/irfanhakim
+# ###       #################    ######     ###
+#
+# wg-quicker: Simple wireguard wrapper
+
+# env variables
+wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"
+
+# list wireguard profiles
+function list_profile() {
+    local profiles=($(shopt -s nullglob; for f in "${wireguard_config_dir}"/*.conf; do basename "${f}" '.conf'; done))
+    echo "${profiles[@]}"
+}
+
+# check wireguard status
+function check_status() {
+    echo "$(sudo wg show)"
+}
+
+# get active connection information
+function active_conn_info() {
+    local status=$(check_status)
+    if [ -n "${status}" ]; then
+        # get active tunnel
+        local interface=$(echo "${status}" | awk '/interface/ {print $2}')
+        # get endpoint address
+        local endpoint=$(echo "${status}" | awk -F'[: ]+' '/endpoint/ {print $3}')
+        # get endpoint port
+        local port=$(echo "${status}" | awk -F'[: ]+' '/endpoint/ {print $4}')
+        # return values
+        if [ -n "${interface}" ] && [ -n "${endpoint}" ] && [ -n "${port}" ]; then
+            echo "interface: ${interface}"
+            echo "endpoint: ${endpoint}"
+            echo "port: ${port}"
+        fi
+    fi
+}
+
+# get active profile
+function get_active_profile() {
+    local connection=$(active_conn_info)
+    if [ -n "${connection}" ]; then
+        # get active address
+        conn_address=$(echo "${connection}" | awk '/endpoint/ {print $2}')
+        # get wireguard profiles
+        local profiles=($(list_profile))
+        # iterate through wireguard profiles and get their domain
+        for profile in "${profiles[@]}"; do
+            # get endpoint domain
+            local profile_domain=$(cat "${wireguard_config_dir}/${profile}.conf" | awk -F'[: ]+' '/Endpoint/ {print $3}')
+            # get its address
+            local profile_address=$(nslookup "${profile_domain}" | awk '/^Address: / {print $2}')
+            # exit if connection and profile address match
+            if [ "${conn_address}" == "${profile_address}" ]; then
+                # echo "$(basename "${profile}" '.conf')"
+                echo "${profile}"
+                break
+            fi
+        done
+    fi
+}
+
+# toggle wireguard profile
+function toggle_profile() {
+    # get currently active profile if available
+    local current_profile=$(get_active_profile)
+    if [ -n "${current_profile}" ]; then
+        # deactivate profile
+        echo "Deactivating profile: ${current_profile}"
+        sudo wg-quick down "${current_profile}"
+        # exit if no profile given
+        if [ -z "${1}" ]; then
+            exit 0
+        fi
+    fi
+    # get available profiles
+    local profiles=($(list_profile))
+    # ensure profiles 1 or more
+    if [ "${#profiles[@]}" -gt 0 ]; then
+        # get profile from user or default to first profile in list
+        local profile=$(basename "${1:-${profiles[0]}}" '.conf')
+        # ensure profile is valid
+        if [[ " ${profiles[@]} " =~ " ${profile} " ]]; then
+            # activate profile
+            echo "Activating profile: ${profile}"
+            sudo wg-quick up "${profile}"
+        else
+            echo "Invalid profile: ${profile}"
+        fi
+    fi
+}
+
+# toggle profile
+toggle_profile "${1}"

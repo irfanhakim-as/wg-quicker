@@ -22,6 +22,7 @@ wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"
 function help() {
     echo "Usage: ${0} [OPTIONS]"; echo
     echo "OPTIONS:"
+    echo "  -c, --current       Return current active profile"
     echo "  -v, --version       Return the installed version number"
     echo "  -h, --help          Return help message"; echo
     echo "Report bugs to ${__url__}/issues"
@@ -126,6 +127,10 @@ done
 # process supplied options
 while [[ ${#} -gt 0 ]]; do
     case "${1}" in
+        -c|--current)
+            echo "Current profile: $(get_active_profile)"
+            status="${?}"
+            ;;
         -v|--version)
             echo "${__namespace__}: ${__version__}"
             status="${?}"

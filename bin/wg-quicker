@@ -8,10 +8,26 @@
 #  #+#       #+#    #+#    #+#   #+# #+#     #+#    https://gitlab.com/irfanhakim
 # ###       #################    ######     ###
 #
-# wg-quicker: Simple wireguard wrapper
+app_namespace="wg-quicker"
+
+# get script source
+SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+# source project files
+source "${SRC_DIR}/../share/doc/${app_namespace}/package.conf"
 
 # env variables
 wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"
+
+# print help message
+function help() {
+    echo "Usage: $(basename ${0}) [OPTIONS] [profile]"; echo
+    echo "OPTIONS:"
+    echo "  -c, --current       Return current active profile"
+    echo "  -l, --list          Return list of available profiles"
+    echo "  -v, --version       Return the installed script version"
+    echo "  -h, --help          Return help message"; echo
+    echo "Report bugs to ${__url__}/issues"
+}
 
 # list wireguard profiles
 function list_profile() {
@@ -97,5 +113,43 @@ function toggle_profile() {
     fi
 }
 
-# toggle profile
-toggle_profile "${1}"
+# ================= DO NOT EDIT BEYOND THIS LINE =================
+
+# return help message
+for arg in "${@}"; do
+    case "${arg}" in
+        -h|--help)
+            help
+            exit 0
+            ;;
+    esac
+done
+
+# process supplied options
+while [[ ${#} -gt 0 ]]; do
+    case "${1}" in
+        -c|--current)
+            echo "Current profile: $(get_active_profile)"
+            status="${?}"
+            ;;
+        -l|--list)
+            echo "Available profiles: $(list_profile)"
+            status="${?}"
+            ;;
+        -v|--version)
+            echo "${__namespace__}: ${__version__}"
+            status="${?}"
+            ;;
+        *)
+            # collect arguments
+            args+=("${1}")
+            ;;
+    esac
+    shift
+done
+
+if [ -n "${status}" ]; then
+    exit "${status}"
+else
+    toggle_profile "${args[@]}"
+fi

@@ -13,45 +13,51 @@ Install the following packages using [Homebrew](https://brew.sh):
 - `wireguard-go`
 - `wireguard-tools`
 
-## Installation
+## Quickstart
 
-Follow these steps to install or update the program for a single user or system-wide:
+### Source
 
-1. Ensure that you have all of the required program [dependencies](#dependencies) installed.
+Before [installing](#installation) or [uninstalling](#uninstallation) the program, we need to first acquire the source of the package if we do not have it already. To do so:
 
-2. Clone the repository to the home directory (i.e. `~/.wg-quicker`):
+1. Clone the repository to the home directory (i.e. `~/.wg-quicker`):
 
     ```sh
     git clone https://github.com/irfanhakim-as/wg-quicker.git ~/.wg-quicker
     ```
 
-3. Get into the local repository:
+2. **Alternatively**, download the [latest release](https://github.com/irfanhakim-as/wg-quicker/releases/latest) from the source repository and extract it to the home directory (i.e. `~/.wg-quicker`):
 
-    ```sh
-    cd ~/.wg-quicker
-    ```
+   - Get the latest release version number:
 
-4. Install using the provided installer script.
+        ```sh
+        version=$(curl --silent "https://api.github.com/repos/irfanhakim-as/wg-quicker/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v?([^"]+)".*/\1/')
+        ```
 
-    To install the program for a single user, simply run the script as is:
+        **Alternatively**, you may also specify a version number manually (i.e. `0.1.1`):
 
-    ```sh
-    ./install.sh
-    ```
+        ```sh
+        version=0.1.1
+        ```
 
-    By default, this will install the program to the `~/.local` prefix. Please ensure that the `~/.local/bin` directory is in your `PATH` environment variable.
+   - Download the version release to the home directory (i.e. `~/.wg-quicker`):
 
-    **Alternatively**, to install the program system-wide, run the script with `sudo`:
+        ```sh
+        mkdir -p ~/.wg-quicker && curl -L https://github.com/irfanhakim-as/wg-quicker/releases/download/v${version}/wg-quicker_${version}_any.tar.gz -o ~/.wg-quicker/wg-quicker_${version}_any.tar.gz
+        ```
 
-    ```sh
-    sudo ./install.sh
-    ```
+   - Extract the content of the archive:
 
-## Uninstallation
+        ```sh
+        tar -xvf ~/.wg-quicker/wg-quicker_${version}_any.tar.gz -C ~/.wg-quicker
+        ```
 
-Follow these steps to uninstall the program:
+   - Remove the archive:
 
-1. Get into the local repository:
+        ```sh
+        rm -f ~/.wg-quicker/wg-quicker_${version}_any.tar.gz
+        ```
+
+3. Get into the source directory (i.e. `~/.wg-quicker`):
 
     ```sh
     cd ~/.wg-quicker

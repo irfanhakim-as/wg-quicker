@@ -15,14 +15,16 @@ system_install_prefix="${system_install_prefix:-"/usr"}"
 user_install_prefix="${user_install_prefix:-"${HOME}/.local"}"
 
 # local variables
-required_vars=("bin_dir")
+required_vars=("bin_dir" "doc_dir")
 
 # determine installation directories
 if [[ ${EUID} -eq 0 ]]; then
     bin_dir="${system_install_prefix}/bin"
+    doc_dir="${system_install_prefix}/share/doc/${app_name}"
     install_mode="system"
 else
     bin_dir="${user_install_prefix}/bin"
+    doc_dir="${user_install_prefix}/share/doc/${app_name}"
     install_mode="local"
 fi
 
@@ -42,7 +44,9 @@ for file in bin/*; do
     filename="${bin_dir}/$(basename "${file}")" && \
     # remove file
     echo "Removing ${filename}" && rm -f "${filename}"
-done
+done && \
+# uninstall docs
+echo "Removing ${doc_dir}" && rm -rf "${doc_dir}"
 
 # report uninstallation result
 if [ ${?} -eq 0 ]; then

@@ -15,14 +15,16 @@ system_install_prefix="${system_install_prefix:-"/usr"}"
 user_install_prefix="${user_install_prefix:-"${HOME}/.local"}"
 
 # local variables
-required_vars=("bin_dir")
+required_vars=("bin_dir" "doc_dir")
 
 # determine installation directories
 if [[ ${EUID} -eq 0 ]]; then
     bin_dir="${system_install_prefix}/bin"
+    doc_dir="${system_install_prefix}/share/doc/${app_name}"
     install_mode="system"
 else
     bin_dir="${user_install_prefix}/bin"
+    doc_dir="${user_install_prefix}/share/doc/${app_name}"
     install_mode="local"
 fi
 
@@ -37,7 +39,8 @@ done
 echo "Installing ${app_name} (${install_mode}) ..."
 
 # create destination directory
-mkdir -p "${bin_dir}"
+mkdir -p "${bin_dir}" "${doc_dir}"
+
 # install binaries sequentially
 for file in bin/*; do
     # get filename
@@ -46,6 +49,16 @@ for file in bin/*; do
     cp -f "${file}" "${bin_dir}/${filename}" && \
     # set perms of installed file
     chmod 755 "${bin_dir}/${filename}"
+done
+
+# install docs sequentially
+for file in doc/*; do
+    # get filename
+    filename=$(basename "${file}") && \
+    # copy file to destination
+    cp -f "${file}" "${doc_dir}/${filename}" && \
+    # set perms of installed file
+    chmod 644 "${doc_dir}/${filename}"
 done
 
 # report installation result

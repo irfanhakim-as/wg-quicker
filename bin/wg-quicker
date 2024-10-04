@@ -24,7 +24,7 @@ function help() {
     echo "OPTIONS:"
     echo "  -c, --current       Return current active profile"
     echo "  -l, --list          Return list of available profiles"
-    echo "  -v, --version       Return the installed version number"
+    echo "  -v, --version       Return the installed script version"
     echo "  -h, --help          Return help message"; echo
     echo "Report bugs to ${__url__}/issues"
 }

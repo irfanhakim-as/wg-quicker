@@ -108,7 +108,7 @@ jobs:
           asset="${name}_${version}_${arch}.tar.gz"
 
           # package required assets into a tar.gz file
-          tar -czvf "${asset}" bin doc *.sh README.md
+          tar -czvf "${asset}" bin doc *.sh README.md LICENSE
 
           # export result to output
           echo "asset=${asset}" | tee -a ${GITHUB_OUTPUT}

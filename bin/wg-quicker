@@ -8,12 +8,12 @@
 #  #+#       #+#    #+#    #+#   #+# #+#     #+#    https://gitlab.com/irfanhakim
 # ###       #################    ######     ###
 #
-app_name="wg-quicker"
+app_namespace="wg-quicker"
 
 # get script source
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 # source project files
-source "${SRC_DIR}/../share/doc/${app_name}/package.conf"
+source "${SRC_DIR}/../share/doc/${app_namespace}/package.conf"
 
 # env variables
 wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"

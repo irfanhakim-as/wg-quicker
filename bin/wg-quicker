@@ -20,7 +20,7 @@ wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"
 
 # print help message
 function help() {
-    echo "Usage: ${0} [OPTIONS]"; echo
+    echo "Usage: $(basename ${0}) [OPTIONS] [profile]"; echo
     echo "OPTIONS:"
     echo "  -c, --current       Return current active profile"
     echo "  -l, --list          Return list of available profiles"

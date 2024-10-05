@@ -15,9 +15,6 @@ SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 # source project files
 source "${SRC_DIR}/../share/doc/${app_namespace}/package.conf"
 
-# env variables
-wireguard_config_dir="${WG_CONFIG_DIR:-"/opt/homebrew/etc/wireguard"}"
-
 # print help message
 function help() {
     echo "Usage: $(basename ${0}) [OPTIONS] [profile]"; echo
@@ -29,9 +26,26 @@ function help() {
     echo "Report bugs to ${__url__}/issues"
 }
 
+# get wireguard config directory
+function get_config_dir() {
+    # return predefined config directory if provided
+    if [ -n "${WG_CONFIG_DIR}" ]; then
+        echo "${WG_CONFIG_DIR}"
+        return
+    fi
+    # dynamically determine config directory otherwise
+    local options=("/opt/homebrew/etc/wireguard" "/usr/local/etc/wireguard")
+    for option in "${options[@]}"; do
+        if [ -d "${option}" ]; then
+            echo "${option}"
+            break
+        fi
+    done
+}
+
 # list wireguard profiles
 function list_profile() {
-    local profiles=($(shopt -s nullglob; for f in "${wireguard_config_dir}"/*.conf; do basename "${f}" '.conf'; done))
+    local profiles=($(shopt -s nullglob; for f in "$(get_config_dir)"/*.conf; do basename "${f}" '.conf'; done))
     echo "${profiles[@]}"
 }
 
@@ -70,7 +84,7 @@ function get_active_profile() {
         # iterate through wireguard profiles and get their domain
         for profile in "${profiles[@]}"; do
             # get endpoint domain
-            local profile_domain=$(cat "${wireguard_config_dir}/${profile}.conf" | awk -F'[: ]+' '/Endpoint/ {print $3}')
+            local profile_domain=$(cat "$(get_config_dir)/${profile}.conf" | awk -F'[: ]+' '/Endpoint/ {print $3}')
             # get its address
             local profile_address=$(nslookup "${profile_domain}" | awk '/^Address: / {print $2}')
             # exit if connection and profile address match

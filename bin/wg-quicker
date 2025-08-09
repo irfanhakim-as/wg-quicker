@@ -118,9 +118,11 @@ function toggle_profile() {
         local profile=$(basename "${1:-${profiles[0]}}" '.conf')
         # ensure profile is valid
         if [[ " ${profiles[@]} " =~ " ${profile} " ]]; then
-            # activate profile
-            echo "Activating profile: ${profile}"
-            sudo wg-quick up "${profile}"
+            # activate profile if it was not previously active
+            if [ "${current_profile}" != "${profile}" ]; then
+                echo "Activating profile: ${profile}"
+                sudo wg-quick up "${profile}"
+            fi
         else
             echo "Invalid profile: ${profile}"
         fi
